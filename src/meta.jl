@@ -3,5 +3,5 @@ function get_condition_mapping(tick_type)
 end
 
 function get_ticker_details(ticker)
-    data = polygon_get("v1/meta/sumbols/$ticker/company")
+    data = polygon_get("v1/meta/symbols/$ticker/company")
 end
