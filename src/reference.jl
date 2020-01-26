@@ -1,4 +1,4 @@
-function get_tickers(sort=nothing, type = nothing, market = nothing, search = nothing, active = nothing)
+function get_tickers(;sort=nothing, type = nothing, market = nothing, search = nothing, active = nothing)
     params = Dict()
     if !isnothing(sort)
         merge!(params, Dict("sort" => sort))
@@ -17,11 +17,11 @@ function get_tickers(sort=nothing, type = nothing, market = nothing, search = no
     end
     tickers = []
     data = polygon_get("v2/reference/tickers", params)
+    append!(tickers, data["tickers"])
     while length(tickers) < data["count"]
-        append!(tickers, data["tickers"])
         page = data["page"] + 1
         data = polygon_get("v2/reference/tickers", merge!(params, Dict("page" => page)))
-
+        append!(tickers, data["tickers"])
     end
     return tickers
 end
