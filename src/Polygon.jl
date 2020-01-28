@@ -1,6 +1,7 @@
 module Polygon
 
 using HTTP, JSON
+using ProgressMeter: @showprogress
 export
     get_condition_mapping,
     get_dividends,

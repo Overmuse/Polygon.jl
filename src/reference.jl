@@ -3,27 +3,29 @@ function get_tickers(;sort=nothing, type = nothing, market = nothing, search = n
     if !isnothing(sort)
         merge!(params, Dict("sort" => sort))
     end
-    if !isnothing(sort)
+    if !isnothing(type)
         merge!(params, Dict("type" => type))
     end
-    if !isnothing(sort)
+    if !isnothing(market)
         merge!(params, Dict("market" => market))
     end
-    if !isnothing(sort)
+    if !isnothing(search)
         merge!(params, Dict("search" => search))
     end
-    if !isnothing(sort)
+    if !isnothing(active)
         merge!(params, Dict("active" => active))
     end
-    tickers = []
+    tickers = Channel(Inf)
     data = polygon_get("v2/reference/tickers", params)
-    append!(tickers, data["tickers"])
-    while length(tickers) < data["count"]
+    push!(tickers, data["tickers"])
+    num_calls = Int(round((data["count"]-50)/50, RoundUp))
+    @showprogress for i in 1:num_calls
         page = data["page"] + 1
         data = polygon_get("v2/reference/tickers", merge!(params, Dict("page" => page)))
-        append!(tickers, data["tickers"])
+        push!(tickers, data["tickers"])
     end
-    return tickers
+    close(tickers)
+    return [ticker for ticker in tickers]
 end
 
 function get_ticker_types()
