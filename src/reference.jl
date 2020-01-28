@@ -25,7 +25,7 @@ function get_tickers(;sort=nothing, type = nothing, market = nothing, search = n
         push!(tickers, data["tickers"])
     end
     close(tickers)
-    return [ticker for ticker in tickers]
+    return reduce(vcat, [ticker for ticker in tickers])
 end
 
 function get_ticker_types()
