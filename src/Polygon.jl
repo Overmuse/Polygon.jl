@@ -1,15 +1,20 @@
 module Polygon
 
+using Dates: Day, today
 using HTTP, JSON
 using ProgressMeter: @showprogress
+using TradingBase: LiveMarketDataProvider, OHLCV
+import TradingBase: get_last, get_historical
 export
     get_condition_mapping,
     get_dividends,
     get_gainers,
     get_grouped_daily,
+    get_historical,
     get_historical_quotes,
     get_historical_range,
     get_historical_trades,
+    get_last,
     get_last_quote,
     get_last_trade,
     get_locales,
@@ -25,13 +30,16 @@ export
 
 const POLYGON_URL = "https://api.polygon.io/"
 
-function add_auth!(params)
-    params["apiKey"] = ENV["APCA-LIVE-KEY-ID"]
+struct PolygonData <: LiveMarketDataProvider
+    key
+    url
 end
 
-function polygon_get(endpoint::String, params = Dict(), body = "")
-    add_auth!(params)
-    result = HTTP.get(POLYGON_URL * endpoint, [], JSON.json(body), query = params)
+get_credentials() = PolygonData(ENV["APCA-LIVE-KEY-ID"], POLYGON_URL)
+
+function polygon_get(api, endpoint::String, params = Dict(), body = "")
+    params["apiKey"] = api.key
+    result = HTTP.get(api.url * endpoint, [], JSON.json(body), query = params)
     !HTTP.iserror(result) && JSON.parse(String(result.body))
 end
 
