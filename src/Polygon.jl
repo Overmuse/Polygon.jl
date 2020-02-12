@@ -20,6 +20,8 @@ export
     get_locales,
     get_losers,
     get_markets,
+    get_market_holidays,
+    get_market_status,
     get_open_close,
     get_previous_close,
     get_snapshot,
@@ -50,4 +52,5 @@ include("open-close.jl")
 include("reference.jl")
 include("snapshot.jl")
 include("ticks.jl")
+include("marketstatus.jl")
 end # module
