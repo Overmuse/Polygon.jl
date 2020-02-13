@@ -7,6 +7,7 @@ using TradingBase: LiveMarketDataProvider, OHLCV
 import TradingBase: get_last, get_historical
 export
     get_condition_mapping,
+    get_credentials,
     get_dividends,
     get_gainers,
     get_grouped_daily,
