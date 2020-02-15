@@ -8,4 +8,4 @@ function get_last_quote(api, ticker)
     return data["last"]
 end
 
-get_last(api, ticker) = get_last_trade(api, ticker)
+get_last(api::PolygonData, ticker) = get_last_trade(api, ticker)["price"]
