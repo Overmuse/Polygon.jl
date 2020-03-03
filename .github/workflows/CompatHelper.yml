@@ -11,6 +11,12 @@ jobs:
       - uses: julia-actions/setup-julia@latest
         with:
           version: 1.3
+      - uses: webfactory/ssh-agent@v0.2.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - run: git config url.git@github.com:.insteadOf https://github.com/
+      - run: git config --global user.name "RollenRegistratorBot"
+      - run: git config --global user.password "${{ secrets.PAT }}"
       - name: Pkg.add("CompatHelper")
         run: julia -e 'using Pkg; Pkg.add("CompatHelper")'
       - name: CompatHelper.main()
@@ -18,7 +24,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: >-
           julia -e '
-          using CompatHelper; 
+          using CompatHelper, Pkg; 
           registries = [
             Pkg.RegistrySpec(
               name = "General",
