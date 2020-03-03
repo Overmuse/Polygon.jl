@@ -8,6 +8,7 @@ import TradingBase: get_last, get_historical
 export
     get_condition_mapping,
     get_credentials,
+    get_ws_credentials,
     get_dividends,
     get_gainers,
     get_grouped_daily,
@@ -29,9 +30,11 @@ export
     get_splits,
     get_ticker_details,
     get_ticker_types,
-    get_tickers
+    get_tickers,
+    subscribe
 
 const POLYGON_URL = "https://api.polygon.io/"
+const WEBSOCKET_URL = "wss://alpaca.socket.polygon.io/stocks"
 
 struct PolygonData <: LiveMarketDataProvider
     key
@@ -39,6 +42,7 @@ struct PolygonData <: LiveMarketDataProvider
 end
 
 get_credentials() = PolygonData(ENV["APCA-LIVE-KEY-ID"], POLYGON_URL)
+get_ws_credentials() = PolygonData(ENV["APCA-LIVE-KEY-ID"], WEBSOCKET_URL)
 
 function polygon_get(api, endpoint::String, params = Dict(), body = "")
     params["apiKey"] = api.key
@@ -54,4 +58,5 @@ include("reference.jl")
 include("snapshot.jl")
 include("ticks.jl")
 include("marketstatus.jl")
+include("websocket.jl")
 end # module
