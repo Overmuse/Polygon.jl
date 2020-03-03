@@ -38,5 +38,5 @@ jobs:
               url = "git@github.com:HakoSwede/PrivateRegistry.git"
             )
           ];
-          CompatHelper.main()
+          CompatHelper.main(;registries = registries)
           '
