@@ -14,7 +14,7 @@ jobs:
       - uses: webfactory/ssh-agent@v0.2.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-      - run: git config url.git@github.com:.insteadOf https://github.com/
+      - run: git config --global url.git@github.com:.insteadOf https://github.com/
       - run: git config --global user.name "RollenRegistratorBot"
       - run: git config --global user.password "${{ secrets.PAT }}"
       - name: Pkg.add("CompatHelper")
