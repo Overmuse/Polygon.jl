@@ -41,8 +41,8 @@ struct PolygonData <: LiveMarketDataProvider
     url
 end
 
-get_credentials() = PolygonData(ENV["APCA-LIVE-KEY-ID"], POLYGON_URL)
-get_ws_credentials() = PolygonData(ENV["APCA-LIVE-KEY-ID"], WEBSOCKET_URL)
+get_credentials() = PolygonData(ENV["POLYGON_KEY"], POLYGON_URL)
+get_ws_credentials() = PolygonData(ENV["POLYGON_KEY"], WEBSOCKET_URL)
 
 function polygon_get(api, endpoint::String, params = Dict(), body = "")
     params["apiKey"] = api.key
